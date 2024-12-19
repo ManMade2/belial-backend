@@ -7,24 +7,22 @@ name = "belial-backend"
 dynamic = ["version"]
 description = ''
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.13"
 license = "MIT"
 keywords = []
-authors = [
-  { name = "ManMade2", email = "madskris@proton.me" },
-]
+authors = [{ name = "ManMade2", email = "madskris@proton.me" }]
 classifiers = [
-  "Development Status :: 4 - Beta",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = []
+dependencies = [
+  "flask",
+  "flask-cors",
+  "djlint",
+  "pydantic",
+  "ManMade2.BelialDB==1.0.6",
+]
 
 [project.urls]
 Documentation = "https://github.com/ManMade2/belial-backend#readme"
@@ -35,9 +33,7 @@ Source = "https://github.com/ManMade2/belial-backend"
 path = "src/belial_backend/__about__.py"
 
 [tool.hatch.envs.types]
-extra-dependencies = [
-  "mypy>=1.0.0",
-]
+extra-dependencies = ["mypy>=1.0.0"]
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:src/belial_backend tests}"
 
@@ -45,17 +41,11 @@ check = "mypy --install-types --non-interactive {args:src/belial_backend tests}"
 source_pkgs = ["belial_backend", "tests"]
 branch = true
 parallel = true
-omit = [
-  "src/belial_backend/__about__.py",
-]
+omit = ["src/belial_backend/__about__.py"]
 
 [tool.coverage.paths]
 belial_backend = ["src/belial_backend", "*/belial-backend/src/belial_backend"]
 tests = ["tests", "*/belial-backend/tests"]
 
 [tool.coverage.report]
-exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
-]
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
