@@ -15,7 +15,7 @@ asset_repo = create_asset_repo()
 
 @assets_blueprint.route("/assets/<map_id>", methods=["GET"])
 def get_map_assets(map_id: int) -> tuple[Response, int]:
-    """Retrieve assets for a given map ID.
+    """Retrieve assets for a given map ID with a database timeout.
 
     Args:
         map_id (int): The ID of the map.
@@ -24,17 +24,22 @@ def get_map_assets(map_id: int) -> tuple[Response, int]:
         tuple: JSON response with assets or error message.
     """
 
-    map_instance = map_repo.get_map(map_id)
+    print(f"Getting assets for map {map_id}")
+
+    try:
+        map_instance = map_repo.get_map(map_id)  # Added database timeout of 30 seconds
+    except TimeoutError:
+        return jsonify({"error": "Database operation timed out"}), 503
 
     if map_instance is None:
         return jsonify({"error": f"Map with id {map_id} not found"}), 404
 
-    if len(map_instance.Assets) == 0:
+    if len(map_instance.assets) == 0:
         return jsonify({"error": f"Map with id {map_id} has no assets"}), 404
 
     assets: list[AssetSchema] = []
 
-    for asset in map_instance.Assets:
+    for asset in map_instance.assets:
         assets.append(AssetSchema.model_validate(asset))
 
     return jsonify(assets), 200

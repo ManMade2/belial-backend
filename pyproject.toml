@@ -2,8 +2,11 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/belial_backend"]
+
 [project]
-name = "belial-backend"
+name = "ManMade2.BelialBackend"
 dynamic = ["version"]
 description = ''
 readme = "README.md"
@@ -21,7 +24,7 @@ dependencies = [
   "flask-cors",
   "djlint",
   "pydantic",
-  "ManMade2.BelialDB==1.0.6",
+  "ManMade2.BelialDB==1.0.12",
 ]
 
 [project.urls]
